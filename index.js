@@ -3,8 +3,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import sequelize from './db/client.js';
 import userRouter from './routes/userRoutes.js';
+import routineRouter from './routes/routineRoutes.js';
 import cookieParser from 'cookie-parser';
-
+import './models/associations.js'
 dotenv.config();
 
 const app = express();
@@ -26,6 +27,7 @@ const PORT = process.env.PORT || 4000;
         console.log('DB connection OK');
         await sequelize.sync();
         app.use('/api/user', userRouter);
+        app.use('/api/routine', routineRouter);
         app.listen(PORT, () => {
             console.log(`Server running on port: ${PORT}`);
         });

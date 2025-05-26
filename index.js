@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import sequelize from './db/client.js';
 import userRouter from './routes/userRoutes.js';
 import routineRouter from './routes/routineRoutes.js';
+import trainingSessionRouter from './routes/traingSessionRoutes.js';
+import trainingSeriesRouter from './routes/trainingSeriesRoutes.js';
 import cookieParser from 'cookie-parser';
 import './models/associations.js'
 dotenv.config();
@@ -28,6 +30,8 @@ const PORT = process.env.PORT || 4000;
         await sequelize.sync();
         app.use('/api/user', userRouter);
         app.use('/api/routine', routineRouter);
+        app.use('/api/training-session', trainingSessionRouter);
+        app.use('/api/training-set', trainingSeriesRouter)
         app.listen(PORT, () => {
             console.log(`Server running on port: ${PORT}`);
         });

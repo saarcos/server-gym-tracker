@@ -63,7 +63,30 @@ const deleteRoutineById = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
-
     }
 }
-export { createRoutine, getRoutinesByUser, deleteRoutineById }
+const getRoutineById = async (req, res) => {
+    try {
+        const { routineId } = req.params;
+        const routine = await Routine.findOne({ 
+            where: { id: routineId },
+            include: [{
+                model: RoutineExercise,
+                as: 'exercises'
+            }]
+        });
+        if(!routine){
+            return res.status(401).json({
+                success: false, message: 'There\'s not such routine.'
+            })
+        }
+        return res.status(200).json({
+            success: true, 
+            routine: routine
+        })
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+export { createRoutine, getRoutinesByUser, deleteRoutineById, getRoutineById}
